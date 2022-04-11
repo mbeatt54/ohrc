@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "ohrc-a4b31"
+  },
+  "targets": {
+    "ohrc-a4b31": {
+      "hosting": {
+        "ohrc": [
+          "ohrc-a4b31"
+        ]
+      }
+    }
+  }
+}
