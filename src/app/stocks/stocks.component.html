@@ -1,0 +1,29 @@
+<div fxLayoutAlign="center center" fxLayoutGap="15px">
+  <mat-form-field fxFlex="40%">
+    <input type="text" matInput placeholder="Filter" (keyup)="filterData($event.target.value)" />
+  </mat-form-field>
+  <button mat-raised-button fxFlex="20%" color="primary" (click)="openNewStockDialog()">New Stock</button>
+</div>
+<div class="mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="certificateNumber">
+      <mat-header-cell *matHeaderCellDef>Cert #</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.certificateNumber }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="issueDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Issue Date</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.issueDate.toDate() | date }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="numberOfShares">
+      <mat-header-cell *matHeaderCellDef># of Shares</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.numberOfShares }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</div>
+<mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25]"></mat-paginator>

@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>New Stock</h2>
+<form
+  mat-dialog-content
+  [formGroup]="newStockForm"
+  (ngSubmit)="onSubmit()"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  fxLayoutGap="10px"
+>
+  <mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="Issue Date" formControlName="issueDate" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" matInput placeholder="Certificate #" formControlName="certificateNumber" />
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" matInput placeholder="# of Shares" formControlName="numberOfShares" />
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" matInput placeholder="Certificate Owner" formControlName="name" />
+  </mat-form-field>
+</form>
+<div mat-dialog-actions>
+  <button mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">Ok</button>
+</div>

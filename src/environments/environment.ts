@@ -12,7 +12,8 @@ export const environment = {
     authDomain: 'ohrc-a4b31.firebaseapp.com',
     messagingSenderId: '1054056354538',
   },
-  production: false
+  production: false,
+  useEmulators: true,
 };
 
 /*
