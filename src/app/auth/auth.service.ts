@@ -1,50 +1,48 @@
 import { Injectable } from '@angular/core';
+import { createUserWithEmailAndPassword, Auth, updateProfile } from '@angular/fire/auth';
+
 import { Router } from '@angular/router';
+import { signInWithEmailAndPassword } from '@firebase/auth';
 import { Subject } from 'rxjs';
 import { AuthData } from '../_models/auth-data.model';
-import { User } from '../_models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private user: User;
-
   authChange = new Subject<boolean>();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: Auth) {}
+
+  isAuthenticated = false;
 
   registerUser(authData: AuthData) {
-    this.user = {
-      email: authData.email,
-      userId: Math.round(Math.random() * 100000).toString(),
-      displayname: authData.displayname,
-    };
-    this.authChange.next(true);
-    this.router.navigateByUrl('/');
+    createUserWithEmailAndPassword(this.auth, authData.email, authData.password)
+      .then((res) => {
+        updateProfile(this.auth.currentUser, {
+          displayName: authData.displayname,
+        });
+      })
+      .catch((error) => {
+        console.log('registerUser error: ', error);
+      });
   }
 
   login(authData: AuthData) {
-    this.user = {
-      email: authData.email,
-      userId: Math.round(Math.random() * 100000).toString(),
-      displayname: '',
-    };
-    this.authChange.next(true);
-    this.router.navigateByUrl('/stocks');
+    signInWithEmailAndPassword(this.auth, authData.email, authData.password)
+      .then((res) => {
+        console.log('login: ', res);
+      })
+      .catch((error) => {
+        console.log('login error: ', error);
+      });
   }
 
   logout() {
-    this.user = null;
-    this.authChange.next(false);
-    this.router.navigateByUrl('/');
-  }
-
-  getUser() {
-    return { ...this.user };
+    this.auth.signOut();
   }
 
   isAuth() {
-    return this.user != null;
+    return this.isAuthenticated;
   }
 }
