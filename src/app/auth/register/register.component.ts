@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService, confirmPasswordValidation, createPasswordStrengthValidator } from '../auth.service';
 
 @Component({
   selector: 'app-register',
@@ -9,11 +9,28 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  constructor(private authService: AuthService, private router: Router) {}
+  registerForm: FormGroup;
 
-  ngOnInit(): void {}
+  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {}
 
-  register(f: NgForm) {
-    this.authService.registerUser(f.value);
+  ngOnInit(): void {
+    this.registerForm = this.fb.group(
+      {
+        email: new FormControl('test@test.com', { validators: [Validators.required, Validators.email] }),
+        displayname: new FormControl(''),
+        password: new FormControl('Pa$$w0rd', {
+          validators: [Validators.required, Validators.minLength(6), createPasswordStrengthValidator()],
+        }),
+        confirmPassword: new FormControl(''),
+      },
+      {
+        validator: confirmPasswordValidation('password', 'confirmPassword'),
+      }
+    );
+  }
+
+  register() {
+    // this.authService.registerUser(this.registerForm.value);
+    console.log('register(): ', this.registerForm.value);
   }
 }

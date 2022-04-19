@@ -1,21 +1,40 @@
 <section class="register-form">
-  <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="7px" #f="ngForm" (ngSubmit)="register(f)">
+  <form
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxLayoutGap="7px"
+    [formGroup]="registerForm"
+    (ngSubmit)="register()"
+  >
     <mat-form-field>
-      <input type="email" matInput placeholder="Your email" ngModel name="email" email required #emailInput="ngModel" />
-      <mat-error *ngIf="emailInput.hasError('required')">Email is a required.</mat-error>
-      <mat-error *ngIf="!emailInput.hasError('invalid')">Email is invalid</mat-error>
+      <input type="email" matInput placeholder="Your email" formControlName="email" />
+      <mat-error *ngIf="registerForm.get('email').invalid">Email is invalid</mat-error>
+      <mat-error
+        *ngIf="
+          registerForm.get('email').invalid && (registerForm.get('email').dirty || registerForm.get('email').touched)
+        "
+        >Please enter an email</mat-error
+      >
     </mat-form-field>
     <mat-form-field>
-      <input type="text" matInput placeholder="Display name" ngModel name="displayname" />
+      <input type="text" matInput placeholder="Display name" formControlName="displayname" />
     </mat-form-field>
     <mat-form-field hintLabel="Password minimum length is 6 characters.">
-      <input type="password" matInput placeholder="Password" ngModel name="password" required minlength="6" #pwInput />
-      <mat-hint align="end">({{ pwInput.value?.length }}/6)</mat-hint>
+      <input
+        type="password"
+        matInput
+        placeholder="Password"
+        formControlName="password"
+        id="password"
+        matTooltip="Password must be complex. (i.e., One each: lowercase, uppercase and number)"
+      />
+      <mat-hint align="end">({{ registerForm.get('password').value.length }}/6)</mat-hint>
       <mat-error>Password must be at least 6 characters long</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input type="password" matInput placeholder="Confirm Password" ngModel name="confirmPassword" required />
+      <input type="password" matInput placeholder="Confirm Password" formControlName="confirmPassword" />
+      <mat-error>Passwords don't match</mat-error>
     </mat-form-field>
-    <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">Register</button>
+    <button type="submit" mat-raised-button color="primary" [disabled]="registerForm.invalid">Register</button>
   </form>
 </section>

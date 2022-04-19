@@ -13,6 +13,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const materialModules = [
   MatButtonModule,
@@ -28,6 +29,7 @@ const materialModules = [
   MatSortModule,
   MatTableModule,
   MatToolbarModule,
+  MatTooltipModule,
 ];
 
 @NgModule({
